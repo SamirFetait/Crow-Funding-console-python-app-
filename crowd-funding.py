@@ -1,6 +1,8 @@
 import re , json , os
 from datetime import datetime
 
+        # Authentication System
+
 current_user = None
 USERS_FILE = "users.json"
 
@@ -326,6 +328,33 @@ def delete_project():
     else:
         print("Deletion cancelled.")
 
+def search_project():
+    if not projects:
+        print("No projects Found")
+        return
+    try:
+        date_str = input("Enter a date to search for projects YYYY-MM-DD.")
+        search_date = datetime.strptime(date_str , "%Y-%m-%d").date()
+    except ValueError:
+        print("Invalid date format. Please use YYYY-MM-DD.")
+        return
+
+    found = False
+    print(f"Projects found on that date: {search_date}\n")
+    for pid, proj in projects.items():
+        start = datetime.strptime(proj['start_time'], "%Y-%m-%d").date()
+        end = datetime.strptime(proj['end_time'], "%Y-%m-%d").date()
+        if start <= search_date <= end:
+            print(f"Project ID: {pid}")
+            print(f"Title: {proj.get('title', '')}")
+            print(f"Owner: {proj.get('owner', 'N/A')}")
+            print(f"Target: {proj.get('target', 0)} {proj.get('currency', '')}")
+            print(f"Duration: {proj.get('start_time')} → {proj.get('end_time')}")
+            print("-" * 40)
+            found = True
+    if not found:
+        print("No projects found active on that date.")
+
 def main_menu():
     while True:
         print("\n*********** Welcome to our Crowd-Funding Page ***********")
@@ -360,7 +389,9 @@ def main_menu():
                 print("2. View All Projects")
                 print("3. Edit Your Projects")
                 print("4. Delete Your Projects")
-                print("5. Back to Main Menu")
+                print("5. Search Projects by Date")
+                print("6. Back to Main Menu")
+
 
                 pro_choice = input("Enter your choice: ").strip()
 
@@ -372,6 +403,8 @@ def main_menu():
                     edit_project()
                 elif pro_choice == "4":
                     delete_project()
+                elif pro_choice == "5":
+                    search_project()
                 else:
                     break
         elif choice == "3":
