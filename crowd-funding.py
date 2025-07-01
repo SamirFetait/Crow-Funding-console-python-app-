@@ -18,7 +18,7 @@ def save_users(users):
 
 users = load_users()
 
-            # Register Function called if choice = 1
+            # Register Function
 def register():
     print("\n--- User Registration ---")
 
@@ -81,7 +81,7 @@ def register():
             print("Password must be at least 8 characters.")
         else:
             break
-    print("\u2705 Password set.")
+    print("Password set.")
 
     while True:
         phone_number = input("Enter your phone number (11 digits): ").strip()
@@ -104,7 +104,7 @@ def register():
     print("\nRegistration Successful!")
     print("Please activate your account before login.")
 
-            # Login Function called if choice = 2
+            # Login Function 
 
 def login():
     print("\n--- Login ---")
@@ -125,6 +125,7 @@ def login():
                     save_users(users)
                     print("Your account has been activated!")
                     print(f"Welcome, {user['first_name']}!")
+                    project_menu()
                 else:
                     print("Account not activated. Please activate later to log in.")
                 return
@@ -152,179 +153,209 @@ def save_projects(projects):
 
 projects = load_projects()
 
-            # Create Project
+            # Project Menu
+
+def project_menu():
+
+    while True:
+        print("\n************ Projects Menu ************")
+        print("1. Create a Project")
+        print("2. View All Projects")
+        print("3. Edit Your Projects")
+        print("4. Delete Your Projects")
+        print("5. Search Project by Date")
+        print("6. Back to Main Menu")
+
+        choice = input("Enter your choice: ").strip()
+
+        if choice == "1":
+            create_project()
+        elif choice == "2":
+            view_project()
+        elif choice == "3":
+            edit_project()
+        elif choice == "4":
+            delete_project()
+        elif choice == "5":
+            search_project()
+        elif choice == "6":
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+        # Create project
 
 def create_project():
-    global current_user
-    if not current_user:
-        print("You must be logged in to create a project.")
-        return
+        global current_user
+        if not current_user:
+            print("You must be logged in to create a project.")
+            return
 
-    print("\nPlease Enter Your Project Info:\n")
+        print("\nPlease Enter Your Project Info:\n")
 
-    # Title validation
-    while True:
-        title = input("Title: ").strip().capitalize()
-        if not title:
-            print("Title cannot be empty.")
-        elif not title.replace(" " , "").isalpha():
-            print("Title Should be alpha characters.")
-        else:
-            break
-
-    # Details validation
-    while True:
-        details = input("Details: ").strip()
-        if not details:
-            print("Details cannot be empty.")
-        elif len(details) < 10:
-            print("Details should be more than 10 charaters")
-        else:
-            break
-
-    # Target validation
-    while True:
-        try:
-            total_target = int(input("Total target (in EGP): ").strip())
-            if total_target <= 0:
-                print("Target must be a positive number.")
+        # Title validation
+        while True:
+            title = input("Title: ").strip().capitalize()
+            if not title:
+                print("Title cannot be empty.")
+            elif not title.replace(" " , "").isalpha():
+                print("Title Should be alpha characters.")
             else:
                 break
-        except ValueError:
-            print("Target must be an integer.")
 
-    # Date format
-    date_format = "%Y-%m-%d"
-
-    # Start date validation
-    while True:
-        try:
-            start_str = input("Start Date (YYYY-MM-DD): ").strip()
-            start_time = datetime.strptime(start_str, date_format).date()
-            if start_time <= datetime.today().date():
-                print("Start date must be after today.")
+        # Details validation
+        while True:
+            details = input("Details: ").strip()
+            if not details:
+                print("Details cannot be empty.")
+            elif len(details) < 10:
+                print("Details should be more than 10 charaters")
             else:
                 break
-        except ValueError:
-            print("Invalid date format. Please use YYYY-MM-DD.")
 
-    # End date validation
-    while True:
-        try:
-            end_str = input("End Date (YYYY-MM-DD): ").strip()
-            end_time = datetime.strptime(end_str, date_format).date()
-            if end_time <= start_time:
-                print("End date must be after start date.")
-            else:
-                break
-        except ValueError:
-            print("Invalid date format. Please use YYYY-MM-DD.")
+        # Target validation
+        while True:
+            try:
+                total_target = int(input("Total target (in EGP): ").strip())
+                if total_target <= 0:
+                    print("Target must be a positive number.")
+                else:
+                    break
+            except ValueError:
+                print("Target must be an integer.")
 
-    # Add project to the global projects dict with a new ID
-    new_id = str(len(projects) + 1)
-    projects[new_id] = {
-        "title": title,
-        "details": details,
-        "target": total_target,
-        "currency": "EGP",
-        "start_time": str(start_time),
-        "end_time": str(end_time),
-        "owner": current_user
-    }
+        # Date format
+        date_format = "%Y-%m-%d"
 
-    # Save to JSON
-    save_projects(projects)
+        # Start date validation
+        while True:
+            try:
+                start_str = input("Start Date (YYYY-MM-DD): ").strip()
+                start_time = datetime.strptime(start_str, date_format).date()
+                if start_time <= datetime.today().date():
+                    print("Start date must be after today.")
+                else:
+                    break
+            except ValueError:
+                print("Invalid date format. Please use YYYY-MM-DD.")
 
-    print("\nProject added and saved successfully!")
-    for key, value in projects[new_id].items():
-        print(f"{key.capitalize()}: {value}")
+        # End date validation
+        while True:
+            try:
+                end_str = input("End Date (YYYY-MM-DD): ").strip()
+                end_time = datetime.strptime(end_str, date_format).date()
+                if end_time <= start_time:
+                    print("End date must be after start date.")
+                else:
+                    break
+            except ValueError:
+                print("Invalid date format. Please use YYYY-MM-DD.")
 
-        # View Projects
+        # Add project to the global projects dict with a new ID
+        new_id = str(len(projects) + 1)
+        projects[new_id] = {
+            "title": title,
+            "details": details,
+            "target": total_target,
+            "currency": "EGP",
+            "start_time": str(start_time),
+            "end_time": str(end_time),
+            "owner": current_user
+        }
+
+        # Save to JSON
+        save_projects(projects)
+
+        print("\nProject added and saved successfully!")
+        for key, value in projects[new_id].items():
+            print(f"{key.capitalize()}: {value}")
+
+            # View Projects
 
 def view_project():
-    if projects:
-        print("\nAll Projects:\n")
-        for pid, proj in projects.items():
-            print(f"Project ID: {pid}")
-            print(f"Title: {proj.get('title', '')}")
-            print(f"Owner: {proj.get('owner', 'N/A')}")
-            print(f"Target: {proj.get('target', 0)} {proj.get('currency', '')}")
-            print(f"Duration: {proj.get('start_time')} → {proj.get('end_time')}")
-            print("-" * 40)
-    else:
-        print("\nNo projects found.")
+        if projects:
+            print("\nAll Projects:\n")
+            for pid, proj in projects.items():
+                print(f"Project ID: {pid}")
+                print(f"Title: {proj.get('title', '')}")
+                print(f"Owner: {proj.get('owner', 'N/A')}")
+                print(f"Target: {proj.get('target', 0)} {proj.get('currency', '')}")
+                print(f"Duration: {proj.get('start_time')} → {proj.get('end_time')}")
+                print("-" * 40)
+        else:
+            print("\nNo projects found.")
 
-        # Edit Project
+            # Edit Project
 
 def edit_project():
-    global current_user
-    if not current_user:
-        print("You must be logged in.")
-        return
+        global current_user
+        if not current_user:
+            print("You must be logged in.")
+            return
 
-    my_projects = {pid: p for pid, p in projects.items() if p["owner"] == current_user}
+        my_projects = {pid: p for pid, p in projects.items() if p["owner"] == current_user}
 
-    if not my_projects:
-        print("You have no projects to edit.")
-        return
+        if not my_projects:
+            print("You have no projects to edit.")
+            return
 
-    print("\nYour Projects:")
-    for pid, p in my_projects.items():
-        print(f"{pid}: {p['title']}")
+        print("\nYour Projects:")
+        for pid, p in my_projects.items():
+            print(f"{pid}: {p['title']}")
 
-    selected_id = input("Enter project ID to edit: ").strip()
-    if selected_id not in my_projects:
-        print("Invalid project ID.")
-        return
+        selected_id = input("Enter project ID to edit: ").strip()
+        if selected_id not in my_projects:
+            print("Invalid project ID.")
+            return
 
-    project = my_projects[selected_id]
+        project = my_projects[selected_id]
 
-    new_title = input(f"New Title (leave empty to keep '{project['title']}'): ").strip()
-    if new_title:
-        project["title"] = new_title
+        new_title = input(f"New Title (leave empty to keep '{project['title']}'): ").strip()
+        if new_title:
+            project["title"] = new_title
 
-    new_details = input(f"New Details (leave empty to keep current): ").strip()
-    if new_details:
-        project["details"] = new_details
+        new_details = input(f"New Details (leave empty to keep current): ").strip()
+        if new_details:
+            project["details"] = new_details
 
-    new_target = input(f"New Target (leave empty to keep {project['target']}): ").strip()
-    if new_target.isdigit():
-        project["target"] = int(new_target)
+        new_target = input(f"New Target (leave empty to keep {project['target']}): ").strip()
+        if new_target.isdigit():
+            project["target"] = int(new_target)
 
-    projects[selected_id] = project
-    save_projects(projects)
-    print("Project updated.")
+        projects[selected_id] = project
+        save_projects(projects)
+        print("Project updated.")
 
-        # Delete Project
+            # Delete Project
 
 def delete_project():
-    global current_user
-    if not current_user:
-        print("You must be logged in.")
-        return
+        global current_user
+        if not current_user:
+            print("You must be logged in.")
+            return
 
-    my_projects = {pid: p for pid, p in projects.items() if p["owner"] == current_user}
+        my_projects = {pid: p for pid, p in projects.items() if p["owner"] == current_user}
 
-    if not my_projects:
-        print("You have no projects to delete.")
-        return
+        if not my_projects:
+            print("You have no projects to delete.")
+            return
 
-    print("\n Your Projects:")
-    for pid, p in my_projects.items():
-        print(f"{pid}: {p['title']}")
+        print("\n Your Projects:")
+        for pid, p in my_projects.items():
+            print(f"{pid}: {p['title']}")
 
-    selected_id = input("Enter project ID to delete: ").strip()
-    if selected_id not in my_projects:
-        print("Invalid project ID.")
-        return
+        selected_id = input("Enter project ID to delete: ").strip()
+        if selected_id not in my_projects:
+            print("Invalid project ID.")
+            return
 
-    confirm = input(f"Are you sure you want to delete '{projects[selected_id]['title']}'? (y/n): ").strip().lower()
-    if confirm == "y":
-        del projects[selected_id]
-        save_projects(projects)
-        print("Project deleted.")
-    else:
-        print("Deletion cancelled.")
+        confirm = input(f"Are you sure you want to delete '{projects[selected_id]['title']}'? (y/n): ").strip().lower()
+        if confirm == "y":
+            del projects[selected_id]
+            save_projects(projects)
+            print("Project deleted.")
+        else:
+            print("Deletion cancelled.")
 
 def search_project():
     if not projects:
@@ -356,7 +387,7 @@ def search_project():
 def main_menu():
     while True:
         print("\n*********** Welcome to our Crowd-Funding Page ***********")
-        print("1. Authentication System")
+        print("1. Register \\ Login")
         if current_user:
             print("2. Projects")
         print("3. Exit")
@@ -381,30 +412,7 @@ def main_menu():
                 else:
                     print("Invalid choice. Please try again.")
         elif choice == "2":
-            while True:
-                print("\n************ Projects Menu ************")
-                print("1. Create a Project")
-                print("2. View All Projects")
-                print("3. Edit Your Projects")
-                print("4. Delete Your Projects")
-                print("5. Search Projects by Date")
-                print("6. Back to Main Menu")
-
-
-                pro_choice = input("Enter your choice: ").strip()
-
-                if pro_choice == "1":
-                    create_project()
-                elif pro_choice == "2":
-                    view_project()
-                elif pro_choice == "3":
-                    edit_project()
-                elif pro_choice == "4":
-                    delete_project()
-                elif pro_choice == "5":
-                    search_project()
-                else:
-                    break
+            project_menu()
         elif choice == "3":
             print("Goodbye!")
             break
