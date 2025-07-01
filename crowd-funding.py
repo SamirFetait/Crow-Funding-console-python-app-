@@ -18,8 +18,6 @@ def save_users(users):
 
 users = load_users()
 
-# print(json.dumps(users, indent=4))
-
             # Register Function called if choice = 1
 def register():
     print("\n--- User Registration ---")
