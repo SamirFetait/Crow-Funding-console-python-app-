@@ -18,6 +18,25 @@ def save_users(users):
 
 users = load_users()
 
+def auth_menu():
+    
+    while True:
+        print("\n--- Authentication System ---")
+        print("1. Register")
+        print("2. Login")
+        print("3. Back to Main Menu")
+
+        auth_choice = input("Enter your choice: ").strip()
+
+        if auth_choice == "1":
+            register()
+        elif auth_choice == "2":
+            login()
+        elif auth_choice == "3":
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
             # Register Function
 def register():
     print("\n--- User Registration ---")
@@ -398,22 +417,7 @@ def main_menu():
         choice = input("Enter your choice: ").strip()
 
         if choice == "1":
-            while True:
-                print("\n--- Authentication System ---")
-                print("1. Register")
-                print("2. Login")
-                print("3. Back to Main Menu")
-
-                auth_choice = input("Enter your choice: ").strip()
-
-                if auth_choice == "1":
-                    register()
-                elif auth_choice == "2":
-                    login()
-                elif auth_choice == "3":
-                    break
-                else:
-                    print("Invalid choice. Please try again.")
+            auth_menu()
         elif choice == "2":
             project_menu()
         elif choice == "3":
