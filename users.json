@@ -1,0 +1,11 @@
+{
+    "samir": {
+        "username": "samir",
+        "first_name": "Samir",
+        "last_name": "Samir",
+        "email": "samirfetait@g.com",
+        "password": "samirsamir",
+        "phone": "01250607080",
+        "is_active": false
+    }
+}

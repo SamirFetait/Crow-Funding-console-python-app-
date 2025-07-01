@@ -19,7 +19,7 @@ def save_users(users):
 users = load_users()
 
 def auth_menu():
-    
+
     while True:
         print("\n--- Authentication System ---")
         print("1. Register")
@@ -111,6 +111,7 @@ def register():
     print("Phone number set.")
 
     users[username] = {
+        "username" : username,
         "first_name": firstname,
         "last_name": lastname,
         "email": email,
@@ -127,11 +128,11 @@ def register():
 
 def login():
     print("\n--- Login ---")
-    email = input("Enter your email: ").strip().lower()
+    email = input("Enter your email\\username: ").strip().lower()
     password = input("Enter your password: ").strip()
 
     for username, user in users.items():
-        if user["email"] == email:
+        if user["email"] == email or user["username"] == username:
             if user["password"] != password:
                 print("Incorrect password.")
                 return
@@ -151,6 +152,10 @@ def login():
                 else:
                     print("Account not activated. Please activate later to log in.")
                 return
+        elif user["email"] != email:
+            print("\nEmail isnt Registered, Sign up first")
+            print("\nYou Can Register Now For Free!!!!")
+            register()
 
             print(f"Login successful. Welcome, {user['first_name']}!")
             global current_user
