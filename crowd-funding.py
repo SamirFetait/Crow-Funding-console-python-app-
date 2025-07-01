@@ -104,7 +104,7 @@ def register():
     print("\nRegistration Successful!")
     print("Please activate your account before login.")
 
-            # Login Function 
+            # Login Function
 
 def login():
     print("\n--- Login ---")
@@ -116,6 +116,9 @@ def login():
             if user["password"] != password:
                 print("Incorrect password.")
                 return
+            elif user["password"] == password:
+                print(f"\nLogin successful. Welcome back, {user['first_name']}!")
+                project_menu()
 
             if not user.get("is_active", False):
                 print("Your account is not activated.")
