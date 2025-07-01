@@ -1,0 +1,10 @@
+{
+    "samirfetait": {
+        "first_name": "Samir",
+        "last_name": "Fetait",
+        "email": "samirfetait22@gmail.com",
+        "password": "12345678",
+        "phone": "01234567891",
+        "is_active": true
+    }
+}
